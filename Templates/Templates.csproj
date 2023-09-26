@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<PackageType>Template</PackageType>
+	<PackageId>DemoTemplates</PackageId>
+	<IncludeContentInPack>true</IncludeContentInPack>
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <Content Include="templates\**\Properties\*" />
+  </ItemGroup>
+  
+   <Target Name="CustomClean" BeforeTargets="CoreClean">
+	<ItemGroup>
+	  <_NugetPackages Include="$..\$(PackageId).*.nupkg" />
+	  <_NugetPackages Include="$..$(Configuration)\packages\$(PackageId).*.nupkg" />
+	</ItemGroup>
+	<Delete Files="@(_NugetPackages)" />
+  </Target>
+
+</Project>
